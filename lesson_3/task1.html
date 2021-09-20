@@ -1,10 +1,26 @@
+<!-- 1. С помощью цикла for написать алгоритм для вывода чисел (выводите в консоль, с помощью console.log) от 0 до 10 включительно, чтобы результат выглядел так:
+0 – это ноль
+1 – нечетное число
+2 – четное число
+3 – нечетное число
+...
+10 – четное число -->
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-$END$
+    <script>
+        'use strict';
+
+        console.log('0 - это ноль');
+        // Использую тернарный оператор
+        for(let i = 1; i <= 10; i++) {
+            i % 2 === 0 ? console.log(i + ' – четное число') : console.log(i + ' – нечетное число');
+        }
+    </script>
 </body>
 </html>
