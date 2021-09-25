@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        'use strict';
+
+        let log = console.log;
+
+        // В стиле ES5
+        function Product1(name, price, discount) {
+            this.name = name;
+            this.price = price;
+            this.discount = discount;
+        }
+
+        Product1.prototype.make25PercentDiscount1 = function () {
+            this.price = this.price - (this.price / 100 * this.discount);
+        };
+
+        // В стиле ES6
+        class Product2 {
+            constructor(name, price, discount) {
+                this.name = name;
+                this.price = price;
+                this.discount = discount;
+            }
+
+            make25PercentDiscount2() {
+               this.price = this.price - (this.price / 100 * this.discount);
+            }
+        }
+
+        let product1 = new Product1('Product1', 100, 25);
+        product1.make25PercentDiscount1();
+        log(`ES5: С учетом скидки ${product1.discount}% для ${product1.name} \
+его стоимость составила ${product1.price} рублей.`);
+        let product2 = new Product2('Product2', 200, 25);
+        product2.make25PercentDiscount2();
+        log(`ES6: С учетом скидки ${product2.discount}% для ${product2.name} \
+его стоимость составила ${product2.price} рублей.`);
+
+    </script>
+</body>
+</html>
