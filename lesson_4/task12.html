@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        'use strict';
+
+        let log = console.log;
+
+        // В стиле ES5
+        function Post1(author, text, date) {
+            this.author = author;
+            this.text = text;
+            this.date = date;
+        }
+
+        Post1.prototype.edit1 = function (text) {
+            this.text = text;
+        }
+
+        function AttachedPost1 (author, text, date) {
+            Post1.call(this, author, text, date);
+            this.highlighted = false;
+        }
+
+        AttachedPost1.prototype = Object.create(Post1.prototype);
+        AttachedPost1.prototype.constructor = AttachedPost1;
+
+        AttachedPost1.prototype.makeTextHighlighted1 = function() {
+            this.highlighted = true;
+        };
+
+        // В стиле ES6
+        class Post2 {
+            constructor(author, text, date) {
+                this.author = author;
+                this.text = text;
+                this.date = date;
+            }
+
+            edit2(text) {
+                this.text = text;
+            }
+
+            makeTextHighlighted2() {
+                this.highlighted = true;
+            }
+        }
+
+        class AttachedPost2 extends Post2 {
+            constructor(author, text, date) {
+                super(author, text, date);
+                this.highlighted = false;
+            }
+
+            edit2(text) {
+                this.text = text;
+            }
+        }
+
+        log('ES5:');
+        let post1 = new Post1('Пушкин А. С.', '', '1820');
+        post1.edit1('Текст про Пушкина А. С.');
+        log(post1);
+        let attachedPost1 = new AttachedPost1('Лермонтов М. Ю.', '', '1840');
+        attachedPost1.edit1('Текст про Лермонтова М. Ю.');
+        attachedPost1.makeTextHighlighted1();
+        log(attachedPost1);
+
+        log('ES6:');
+        let post2 = new Post2('Достоевский Ф. М.', '', '1850');
+        post2.edit2('Текст про Достоевского Ф. М.');
+        log(post2);
+        let attachedPost2 = new AttachedPost2('Толстой Л. Н.', '', '1890');
+        attachedPost2.edit2('Текст про Толстого Л. Н.');
+        attachedPost2.makeTextHighlighted2();
+        log(attachedPost2);
+
+    </script>
+</body>
+</html>
