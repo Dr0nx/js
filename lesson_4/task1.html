@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        'use strict';
+
+        let log = console.log;
+
+        function numberToObject(num) {
+            if (typeof num === 'undefined' || isNaN(num) || !(typeof num === 'number')) {
+                return ('Это НЕ число');
+            }
+            if (num < 0 || num > 999) {
+                return ('Это число вне в диапазона [0, 999]');
+            }
+
+            let newObj = {};
+            newObj.hundreds = Math.floor(num / 100);
+            newObj.tens = Math.floor(num / 10) % 10;
+            newObj.units = num % 10;
+
+            return newObj;
+        }
+
+        log(numberToObject(47));
+        log(numberToObject(135));
+        log(numberToObject(7231));
+        log(numberToObject('111'));
+
+    </script>
+</body>
+</html>
