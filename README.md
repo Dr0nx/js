@@ -1,4 +1,4 @@
-## JavaScript
+## Базовый курс JavaScript
 
 #### Список уроков
 
