@@ -3,50 +3,67 @@
 // Пустая корзина
 let basket = {};
 
+class Product {
+    /**
+     * @param {number} id уникальный идентификатор каждого товара
+     * @param {string} image название файла с картинкой, например 0.jpg
+     * @param {string} name имя товара
+     * @param {string} description описание товара
+     * @param {number} price цена товара
+     */
+    constructor(id, image, name, description, price) {
+        this.id = id;
+        this.image = image;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+}
+
 // 6 случайных продуктов, их полное описание
 const products = [
-    [
+    new Product(
         0,
         '1.jpg',
         'Product 0',
         'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
-        52.22
-    ],
-    [
+        52.22,
+    ),
+    new Product(
         1,
         '2.jpg',
         'Product 1',
         'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.',
-        32.12
-    ],
-    [
+        32.12,
+    ),
+    new Product(
         2,
         '3.jpg',
         'Product 2',
         'Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.',
-        82.87
-    ],
-    [
+        82.87,
+    ),
+    new Product(
         3,
         '4.jpg',
         'Product 3',
         'In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.',
-        22.39
-    ],
-    [
+        22.39,
+    ),
+    new Product(
         4,
         '5.jpg',
         'Product 4',
         'Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet.',
-        92.99
-    ],
-    [
+        92.99,
+    ),
+    new Product(
         5,
         '6.jpg',
         'Product 5',
         'Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem.Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem.',
-        12.55
-    ]
+        12.55,
+    ),
 ];
 
 // Методы querySelector*
@@ -54,7 +71,6 @@ const cartIconWrap = document.querySelector('.cartIconWrap');
 const basketCounterEl = document.querySelector('.cartIconWrap span');
 const rightHeader = document.querySelector('.rightHeader');
 const featuredEl = document.querySelector('.featuredItems');
-const featuredButtons = document.querySelectorAll('.featuredImgDark button');
 
 // Обработчик события для показа или скрытия корзины
 cartIconWrap.addEventListener('click', function () {
@@ -97,13 +113,13 @@ function addBasketRow(productId) {
     }
     let productRow = `
         <div class="basketRow">
-            <div>${products[productId][2]}</div>
+            <div>${products[productId].name}</div>
             <div>
                 <span class="productCount" data-productId="${productId}">0</span> шт.
             </div>
-            <div>$${products[productId][4]}</div>
+            <div>$${products[productId].price}</div>
             <div>
-                $<span class="productTotalRow" data-productId="${productId}">${products[productId][4]}</span>
+                $<span class="productTotalRow" data-productId="${productId}">${products[productId].price}</span>
             </div>
         </div>
     `;
@@ -123,9 +139,9 @@ function addFeaturedItem(product) {
         <div class="featuredItem">
 
                 <div class="featuredImgWrap">
-                    <img src="images/featured/${product[1]}" alt="">
+                    <img src="images/featured/${product.image}" alt="">
                     <div class="featuredImgDark">
-                        <button data-productId="${product[0]}">
+                        <button data-productId="${product.id}">
                             <img src="images/cart.svg" alt="">
                             Add to Cart
                         </button>
@@ -134,13 +150,13 @@ function addFeaturedItem(product) {
 
                 <div class="featuredData">
                     <div class="featuredName">
-                        ${product[2]}
+                        ${product.name}
                     </div>
                     <div class="featuredText">
-                        ${product[3]}
+                        ${product.description}
                     </div>
                     <div class="featuredPrice">
-                        $${product[4]}
+                        $${product.price}
                     </div>
                 </div>
 
@@ -171,7 +187,7 @@ function addedProductHandler(event) {
 function calculateAndRenderTotalBasketSum() {
     let totalSum = 0;
     for (let productId in basket) {
-        totalSum += basket[productId] * products[productId][4]
+        totalSum += basket[productId] * products[productId].price;
     }
     basketTotalValueEl.textContent = totalSum.toFixed(2);
 }
@@ -187,19 +203,15 @@ function addProductToObject(productId) {
 
 // Функция срабатывает когда нужно отрисовать продукт в корзине.
 function renderProductInBasket(productId) {
-    let productExist = document.querySelector(`.productCount[data-productId="${productId}"]`);
-    if (productExist) {
-        increaseProductCount(productId);
-        recalculateSumForProduct(productId);
-    } else {
-        renderNewProductInBasket(productId);
-    }
+
+    increaseProductCount(productId);
+    recalculateSumForProduct(productId);
 }
 
 // Функция пересчитывает стоимость товара умноженное на количество товара
 function recalculateSumForProduct(productId) {
     const productTotalRowEl = document.querySelector(`.productTotalRow[data-productId="${productId}"]`);
-    let totalPriceForRow = (basket[productId] * products[productId][4]).toFixed(2);
+    let totalPriceForRow = (basket[productId] * products[productId].price).toFixed(2);
     productTotalRowEl.textContent = totalPriceForRow;
 }
 
